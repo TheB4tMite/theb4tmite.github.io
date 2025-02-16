@@ -124,6 +124,8 @@ Now that we have unrestricted read size, we can go ahead and read `/proc/self/ma
 
 At this point since we have the libc and heap leak it is possible to proceed with House of Einherjar and do FSOP, however for the purpose of this writeup I have to obtain a reliable stack leak.
 
+One detail to note is that the `/proc/self/maps` file is slightly different on remote and thus I had adjust my leaks for the exploit to run properly on remote.
+
 ### Getting Stack Leak
 
 To get a reliable stack leak, we need to read the `environ` symbol in libc which points to the environment symbols on the stack. This means, we need some method to read from an arbitrary address.
