@@ -57,7 +57,7 @@ Note that although the `MAX_BOOKS` constant has been set to 64 we can still allo
 
 Next we look at the `read_book` function. Here, we can see that it only allows us to read books from 0-64.
 
-It uses `open` to open the file using the book namne we give as argument by dereferencing the Book struct pointers from the `library` array which is in the bss.
+It uses `open` to open the file using the book name we give as argument by dereferencing the Book struct pointers from the `library` array which is in the bss.
 
 When it comes to how the book is read out we see 2 paths...
 ```c
@@ -113,7 +113,7 @@ struct Settings {
 };
 ```
 
-Ordering 63 books overwrites upto the settings chunk, the next chunk after that needs to contain a 4 byte value to overwrite the last 4 bytes of the id field followed by `\xa1\x01`.
+We need to set `settings->profile` to 0x1a1 in order to get the leaks using `sendfile`. Ordering 63 books overwrites upto the settings chunk, the next chunk after that needs to contain a 4 byte value to overwrite the last 4 bytes of the id field followed by `\xa1\x01`.
 
 ![img-description](settings.png)
 _settings chunk after writes_
@@ -146,7 +146,21 @@ Before we can obtain the overlapping chunks we need to fill up the tcache free l
 
 After having obtained overlapping chunks we can perform a tcache poisoning attack by freeing the target chunk and overwriting the fd of the freed target chunk. Note that safe linking is enabled for this libc so we'll have to encrypt the address we want to allocate our chunk at using the address of the target chunk.
 
-We also need to have another chunk in the tcache bins such that we can allocate from the the tcache twice.
+Safe-linking can be bypassed by obtaining the addresss of the chunk whose fd we're going to overwrite using the heap leak and xoring it with the actual address we want the fd to point to. The chunk address obtained needs to be shifted right by 12 bits before xoring.
+
+```py
+warn("T POISON")
+review(60,free=b'Y')
+review(0,free=b'Y')
+review(2,0x1f8,p64(0)*0x15+p64(0x151)+(p64(exe.sym['library'] ^ (heap+0x11f0) >> 12)))
+review(3,0x148,b'A')
+review(4,0x148,p64(libc.sym['environ']-4))
+```
+
+We also need to have another chunk in the tcache bins such that we can allocate from the the tcache twice otherwise we won't be able to allocate our fake tcache chunk.
+
+![img-description](bins.png)
+_tcache bins after fd overwrite_
 
 Once we overwrite the free list pointers, we can allocate a chunk of the size of our target chunk twice to get it to allocate at the required address.
 
