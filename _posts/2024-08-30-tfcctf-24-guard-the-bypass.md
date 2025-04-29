@@ -3,6 +3,7 @@ layout: post
 date: 2024-08-30 17:35:00 +0530
 title: TFC CTF 2024 - Guard the Bypass
 categories: Stack Writeup
+tags: Writeup
 description: Canary Bypass via Master Canary Overwrite
 media_subpath: /assets/media/tfctf-2024-guard-the-bypass/
 ---

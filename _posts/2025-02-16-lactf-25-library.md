@@ -3,6 +3,7 @@ layout: post
 date: 2025-02-16 10:00:00 +0530
 title: LA CTF 2025 - Library
 categories: Heap Writeup
+tags: Writeup
 description: House of Einherjar to Ret2System
 media_subpath: /assets/media/lactf-2025-library/
 ---
