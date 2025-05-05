@@ -2,8 +2,8 @@
 layout: post
 date: 2025-04-29 13:35:30 +0530
 title: Unsortedbin Attack
-categories: Heap Bins
-tags: Notes
+categories: Heap Attacks
+tags: Notes Bins
 description: Review Notes on Unsortedbin Attack
 media_subpath: /assets/media/heap-unsortedbin-attack/
 ---

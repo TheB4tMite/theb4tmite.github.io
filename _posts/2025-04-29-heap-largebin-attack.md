@@ -2,8 +2,8 @@
 layout: post
 date: 2025-04-29 13:32:10 +0530
 title: Largebin Attack
-categories: Heap Bins
-tags: Notes
+categories: Heap Attacks
+tags: Notes Bins
 description: Review Notes on Largebin Attack
 media_subpath: /assets/media/heap-largebin-attack/
 ---
