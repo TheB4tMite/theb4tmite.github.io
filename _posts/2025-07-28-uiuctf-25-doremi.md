@@ -147,7 +147,7 @@ In order to use the command properly, you would have to know where `_mi_heap_mai
 
 ### Memory Allocation
 
-I allocated a bunch of chunks and freed them to see what happens. It appears when the heap is initialised a new memory mapping is created for the thread which keeps track of the allocated chunk list, freelists and stores the chunks as well.
+I allocated a bunch of chunks and freed them to see what happens. It appears when the heap is initialised a new memory mapping is created for the thread which keeps track of the allocated chunk list, freelists and stores the chunks as well. I also went through the mimalloc [source](https://github.com/microsoft/mimalloc/blob/main/src/page.c) to affirm my assumptions regarding how the allocator works.
 
 ![img-description](new_mapping.png){: width="700"}
 _newly created mapping highlighted in red_
